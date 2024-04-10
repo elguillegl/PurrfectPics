@@ -27,4 +27,8 @@ data class CatPicItem(
         result = 31 * result + tags.contentHashCode()
         return result
     }
+
+    companion object {
+        val INVALID = CatPicItem("", emptyArray())
+    }
 }

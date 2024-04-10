@@ -72,6 +72,7 @@ dependencies {
     ksp(libs.raamcosta.compose.destinations.ksp)
 
     implementation(libs.coil.compose)
+    implementation(libs.net.engawap.zoomable)
 
     implementation(libs.google.dagger.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

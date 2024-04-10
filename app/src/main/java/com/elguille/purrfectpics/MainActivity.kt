@@ -7,6 +7,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,21 +46,28 @@ class MainActivity : ComponentActivity() {
                             popExitTransition = { exitToRightTransition })
                     )
 
-                DestinationsNavHost(
-                    engine = navHostEngine,
-                    navGraph = NavGraphs.root,
+                Surface(
                     modifier = Modifier.fillMaxSize(),
-                    dependenciesContainerBuilder = {
-                        dependency(NavGraphs.root) {
-                            val parentEntry =
-                                remember(navBackStackEntry) {
-                                    navController.getBackStackEntry(NavGraphs.root.route)
-                                }
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    DestinationsNavHost(
+                        engine = navHostEngine,
+                        navGraph = NavGraphs.root,
+                        modifier = Modifier.fillMaxSize(),
+                        dependenciesContainerBuilder = {
+                            dependency(NavGraphs.root) {
+                                val parentEntry =
+                                    remember(navBackStackEntry) {
+                                        navController.getBackStackEntry(NavGraphs.root.route)
+                                    }
 
-                            val catsViewModel = hiltViewModel<CatsViewModel>(parentEntry)
-                            dependency(catsViewModel)
-                        }
-                    })
+                                val catsViewModel = hiltViewModel<CatsViewModel>(parentEntry)
+                                dependency(catsViewModel)
+                            }
+                        })
+                }
+
+
             }
         }
     }

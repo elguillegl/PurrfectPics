@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Purrfect Pics</string>
+    <string name="action_back">Back</string>
+    <string name="awesome_cat_title">Awesome Cat!</string>
+    <string name="loading_cute_cats">Loading cute cats!</string>
+    <string name="tags_label">Tags:</string>
+    <string name="owner_label">Owner: %1$s</string>
 </resources>

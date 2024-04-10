@@ -18,11 +18,18 @@ class CatsViewModel @Inject constructor(
     private val _catPics = MutableStateFlow<List<CatPicItem>>(emptyList())
     val catPics = _catPics.asStateFlow()
 
+    private val _selectedCatPic = MutableStateFlow(CatPicItem.INVALID)
+    val selectedCatPic = _selectedCatPic.asStateFlow()
+
     init {
         viewModelScope.launch {
             _catPics.update {
                 repository.getCatPics()
             }
         }
+    }
+
+    fun selectCatPic(catPic: CatPicItem) {
+        _selectedCatPic.update { catPic }
     }
 }
