@@ -2,8 +2,10 @@ package com.elguille.purrfectpics.ui.cats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elguille.purrfectpics.data.model.CatPicItem
+import com.elguille.purrfectpics.data.model.CatPic
 import com.elguille.purrfectpics.data.repository.CatPicRepository
+import com.elguille.purrfectpics.domain.DataError
+import com.elguille.purrfectpics.domain.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,21 +17,26 @@ import javax.inject.Inject
 class CatsViewModel @Inject constructor(
     private val repository: CatPicRepository
 ): ViewModel() {
-    private val _catPics = MutableStateFlow<List<CatPicItem>>(emptyList())
-    val catPics = _catPics.asStateFlow()
-
-    private val _selectedCatPic = MutableStateFlow(CatPicItem.INVALID)
-    val selectedCatPic = _selectedCatPic.asStateFlow()
+    private val _uiState = MutableStateFlow(CatsUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
+        _uiState.update { it.copy(catsResource = Resource.Loading()) }
+
         viewModelScope.launch {
-            _catPics.update {
-                repository.getCatPics()
+            _uiState.update {
+                it.copy(catsResource = repository.getCatPics())
             }
         }
     }
 
-    fun selectCatPic(catPic: CatPicItem) {
-        _selectedCatPic.update { catPic }
+    fun selectCatPic(catPic: CatPic) {
+        _uiState.update { it.copy(selectedCatResource = Resource.Loading()) }
+
+        viewModelScope.launch {
+            _uiState.update {
+               it.copy(selectedCatResource = repository.getCatPic(catPic.id))
+            }
+        }
     }
 }

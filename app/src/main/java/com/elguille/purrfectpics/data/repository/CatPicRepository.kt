@@ -1,24 +1,36 @@
 package com.elguille.purrfectpics.data.repository
 
-import android.util.Log
-import com.elguille.purrfectpics.data.model.CatPicItem
-import com.elguille.purrfectpics.data.source.LocalDataSource
-import com.elguille.purrfectpics.data.source.RemoteDataSource
+import com.elguille.purrfectpics.data.model.CatPic
+import com.elguille.purrfectpics.data.source.remote.CatAaSApi
+import com.elguille.purrfectpics.domain.DataError
+import com.elguille.purrfectpics.domain.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CatPicRepository @Inject constructor(
-    private val remoteSource: RemoteDataSource<List<CatPicItem>>,
-    private val localSource: LocalDataSource<List<CatPicItem>>
+    private val remoteSource: CatAaSApi
 ) {
-    suspend fun getCatPics(): List<CatPicItem> {
-        return try {
-            remoteSource.getRemoteData()
+    suspend fun getCatPics(): Resource<List<CatPic>, DataError> {
+        try {
+            val catPics = remoteSource.getCatPics(limit = NUM_CAT_PICS)
+            return Resource.Success(catPics)
         } catch (e: Exception) {
-            Log.e("CatPicRepository", "Error retrieving cat pics from remote: ", e)
-            Log.i("CatPicRepository", "Defaulting to cat pics from local")
-            localSource.getLocalData()
+            return Resource.Error(DataError.Network)
         }
     }
+
+    suspend fun getCatPic(id: String): Resource<CatPic, DataError> {
+        try {
+            val catPic = remoteSource.getCatPic(id = id)
+            return Resource.Success(catPic)
+        } catch (e: Exception) {
+            return Resource.Error(DataError.Network)
+        }
+    }
+
+    companion object {
+        const val NUM_CAT_PICS = 10
+    }
+
 }
