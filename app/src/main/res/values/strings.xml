@@ -5,4 +5,19 @@
     <string name="loading_cute_cats">Loading cute cats!</string>
     <string name="tags_label">Tags:</string>
     <string name="owner_label">Owner: %1$s</string>
+    <string name="wikipedia_hyperlink_text">[Wikipedia]</string>
+    <string name="origin_trait_label">Origin</string>
+    <string name="temperament_trait_label">Temperament</string>
+    <string name="life_span_trait_label">Life span</string>
+    <string name="weight_trait_label">Weight</string>
+    <string name="hypoallergenic_trait_label">Hypoallergenic</string>
+    <string name="shedding_level_trait_label">Shedding level</string>
+    <string name="adaptability_level_trait_label">Adaptability</string>
+    <string name="social_needs_level_trait_label">Social needs</string>
+    <string name="affection_level_trait_label">Affection level</string>
+    <string name="child_friendly_level_trait_level">Child friendly</string>
+    <string name="dog_friendly_level_trait_label">Dog friendly</string>
+    <string name="energy_level_trait_label">Energy level</string>
+    <string name="loading_cute_cat">Loading cute cat!</string>
+    <string name="catdex_title">CatDex 🐱</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.elguille.purrfectpics.data.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -39,9 +40,31 @@ data class CatPic(
 data class Breed(
     val id: String,
     val name: String,
-    val temperament: String,
+    val description: String,
     val origin: String,
-    val weight: Weight
+    val weight: Weight,
+    @SerialName("life_span")
+    val lifeSpan: String? = null,
+    val temperament: String? = null,
+    @SerialName("alt_names")
+    val alternateNames: String? = null,
+    @SerialName("wikipedia_url")
+    val wikipediaUrl: String? = null,
+    @SerialName("hypoallergenic")
+    val hypoallergenic: Int? = null,
+    @SerialName("shedding_level")
+    val sheddingLevel: Int? = null,
+    val adaptability: Int? = null,
+    @SerialName("affection_level")
+    val affectionLevel: Int? = null,
+    @SerialName("social_needs")
+    val socialNeeds: Int? = null,
+    @SerialName("child_friendly")
+    val childFriendly: Int? = null,
+    @SerialName("dog_friendly")
+    val dogFriendly: Int? = null,
+    @SerialName("energy_level")
+    val energyLevel: Int? = null
 )
 
 @Serializable

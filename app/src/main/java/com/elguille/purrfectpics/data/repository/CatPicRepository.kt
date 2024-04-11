@@ -1,5 +1,6 @@
 package com.elguille.purrfectpics.data.repository
 
+import android.util.Log
 import com.elguille.purrfectpics.data.model.CatPic
 import com.elguille.purrfectpics.data.source.remote.CatAaSApi
 import com.elguille.purrfectpics.domain.DataError
@@ -16,6 +17,7 @@ class CatPicRepository @Inject constructor(
             val catPics = remoteSource.getCatPics(limit = NUM_CAT_PICS)
             return Resource.Success(catPics)
         } catch (e: Exception) {
+            Log.e("CatPicRepository", "getCatPics: ", e)
             return Resource.Error(DataError.Network)
         }
     }
@@ -25,6 +27,7 @@ class CatPicRepository @Inject constructor(
             val catPic = remoteSource.getCatPic(id = id)
             return Resource.Success(catPic)
         } catch (e: Exception) {
+            Log.e("CatPicRepository", "getCatPic: ", e)
             return Resource.Error(DataError.Network)
         }
     }
