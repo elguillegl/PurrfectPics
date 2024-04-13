@@ -56,35 +56,41 @@ import com.elguille.purrfectpics.R
 import com.elguille.purrfectpics.data.model.Breed
 import com.elguille.purrfectpics.data.model.CatPic
 import com.elguille.purrfectpics.domain.Resource
+import com.elguille.purrfectpics.extensions.asTextResource
+import com.elguille.purrfectpics.ui.components.CatImage
+import com.elguille.purrfectpics.ui.components.CuteCatsLoading
+import com.elguille.purrfectpics.ui.components.CuteCatsLoadingError
+import com.elguille.purrfectpics.ui.navigation.ContentNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
 @OptIn(ExperimentalMaterial3Api::class)
+@ContentNavGraph
 @Destination
 @Composable
 fun CatPicScreen(
     vm: CatsViewModel,
-    navigator: DestinationsNavigator
+    navController: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsState()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.catdex_title)) },
+                title = { Text(text = stringResource(id = R.string.catdex_title)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navigator.navigateUp()
+                        navController.navigateUp()
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = stringResource(R.string.action_back)
                         )
                     }
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     ) {
@@ -95,7 +101,7 @@ fun CatPicScreen(
         ) {
             when (val selectedCatResource = uiState.selectedCatResource) {
                 is Resource.Empty, is Resource.Loading -> {
-                    CuteCatLoading(
+                    CuteCatsLoading(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -104,39 +110,18 @@ fun CatPicScreen(
                         catPic = selectedCatResource.data,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.TopCenter)
                     )
                 }
                 is Resource.Error -> {
-
+                    CuteCatsLoadingError(
+                        text = selectedCatResource.asTextResource().asString(),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        vm.loadSelectedCatPic(uiState.selectedCatPic)
+                    }
                 }
             }
         }
-
-    }
-}
-
-@Composable
-fun CuteCatLoading(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-    ) {
-        Image(
-            painter = painterResource(id = R.mipmap.cat_list_item_loading),
-            contentDescription = stringResource(R.string.loading_cute_cat)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = stringResource(R.string.loading_cute_cat),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = MaterialTheme.typography.bodyLarge.fontWeight,
-        )
     }
 }
 
@@ -149,7 +134,7 @@ fun CatDetails(
         modifier = modifier.
         verticalScroll(rememberScrollState())
     ) {
-        CatPic(
+        CatImage(
             imageUrl = catPic.url,
             width = catPic.width,
             height = catPic.height,
@@ -166,55 +151,6 @@ fun CatDetails(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-    }
-}
-
-@Composable
-fun CatPic(
-    imageUrl: String,
-    width: Int,
-    height: Int,
-    modifier: Modifier = Modifier,
-) {
-    var imageLoaded by remember { mutableStateOf(false) }
-
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl)
-            .size(coil.size.Size.ORIGINAL) // Set the target size to load the image at.
-            .crossfade(true)
-            .placeholder(R.mipmap.cat_list_item_loading)
-            .error(R.mipmap.cat_list_item_loading_error)
-            .build(),
-        onSuccess = {
-            imageLoaded = true
-        }
-    )
-
-    val imageModifier = if (imageLoaded) {
-        Modifier
-            .zoomable(rememberZoomState())
-    } else {
-        Modifier
-    }
-
-    val contentScale = if (width > height) {
-        ContentScale.FillWidth
-    } else {
-        ContentScale.FillHeight
-    }
-
-    Surface(
-        color = Color.Black,
-        modifier = modifier
-            .height(IntrinsicSize.Max)
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = "Cute Cat Image",
-            contentScale = contentScale,
-            modifier = imageModifier
-        )
     }
 }
 

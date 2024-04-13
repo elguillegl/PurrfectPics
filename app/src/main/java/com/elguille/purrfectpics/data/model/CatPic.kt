@@ -34,6 +34,10 @@ data class CatPic(
         result = 31 * result + height
         return result
     }
+
+    companion object {
+        val INVALID = CatPic("", "", emptyArray(), 0, 0)
+    }
 }
 
 @Serializable

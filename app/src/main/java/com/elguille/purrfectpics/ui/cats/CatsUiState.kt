@@ -6,5 +6,6 @@ import com.elguille.purrfectpics.domain.Resource
 
 data class CatsUiState(
     val catsResource: Resource<List<CatPic>, DataError> = Resource.Empty(),
+    val selectedCatPic: CatPic = CatPic.INVALID,
     val selectedCatResource: Resource<CatPic, DataError> = Resource.Empty()
 )

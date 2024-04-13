@@ -5,6 +5,7 @@ import com.elguille.purrfectpics.data.model.CatPic
 import com.elguille.purrfectpics.data.source.remote.CatAaSApi
 import com.elguille.purrfectpics.domain.DataError
 import com.elguille.purrfectpics.domain.Resource
+import com.elguille.purrfectpics.extensions.toDataError
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ class CatPicRepository @Inject constructor(
             return Resource.Success(catPics)
         } catch (e: Exception) {
             Log.e("CatPicRepository", "getCatPics: ", e)
-            return Resource.Error(DataError.Network)
+            return Resource.Error(e.toDataError())
         }
     }
 
@@ -28,7 +29,7 @@ class CatPicRepository @Inject constructor(
             return Resource.Success(catPic)
         } catch (e: Exception) {
             Log.e("CatPicRepository", "getCatPic: ", e)
-            return Resource.Error(DataError.Network)
+            return Resource.Error(e.toDataError())
         }
     }
 

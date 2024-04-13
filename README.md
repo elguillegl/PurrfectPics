@@ -13,14 +13,21 @@ Retrofit for API consumption
 Coil for image loading
 
 ## Highlights
-- The cats as a service API was used to retrieve 10 random cat references, this makes the app more dynamic and also sample data in PDF was out of sync with current API specs and data.
-- Error handling was added to the whole app, as the service sometimes won't respond, so It includes error placeholders for images and static data retrieved from a local asset to show in the list.
-- There's not much data provided by the API, so opted to add extra functionality like zooming and panning.
-- Everything on the code that is not specifically related to the domain of the data (API, Screens, )could be reused to adapt to another type of dataset.
+- The cats as a service API was used to retrieve 10 random cat references using endpoint **v1/images/search?has_breeds=1&order=RAND**
+- Specific cat data retrieved using endpoint **v1/images/{id}**.
+  - Breeds Details added using collapsible panel
+- Re-usability
+  - UI Components
+    - Cat Image
+    - Screen Loading message
+    - Error message
+  - Resource state handling
+  - Error handling
+    - More fine grained handling possible by using error enums.
 
 ## Build 
 To build this application, you need
 - The latest version of Android Studio.
 - Add the following value to the **local.properties** file 
-  - CATAAS_API_URL = https://cataas.com/, to set up the remote API value.
+  - CATAAS_API_URL = https://api.thecatapi.com/, to set up the remote API value.
 - Hit build

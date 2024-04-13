@@ -21,6 +21,10 @@ class CatsViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
+        loadCats()
+    }
+
+    fun loadCats() {
         _uiState.update { it.copy(catsResource = Resource.Loading()) }
 
         viewModelScope.launch {
@@ -30,12 +34,11 @@ class CatsViewModel @Inject constructor(
         }
     }
 
-    fun selectCatPic(catPic: CatPic) {
-        _uiState.update { it.copy(selectedCatResource = Resource.Loading()) }
-
+    fun loadSelectedCatPic(catPic: CatPic) {
+        _uiState.update { it.copy(selectedCatPic = catPic, selectedCatResource = Resource.Loading()) }
         viewModelScope.launch {
             _uiState.update {
-               it.copy(selectedCatResource = repository.getCatPic(catPic.id))
+                it.copy(selectedCatResource = repository.getCatPic(catPic.id))
             }
         }
     }

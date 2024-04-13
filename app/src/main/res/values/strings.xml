@@ -20,4 +20,8 @@
     <string name="energy_level_trait_label">Energy level</string>
     <string name="loading_cute_cat">Loading cute cat!</string>
     <string name="catdex_title">CatDex 🐱</string>
+    <string name="data_error_network">Network Error</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="data_error_timeout">Time out</string>
+    <string name="data_error_unknown">Unknown Network Error</string>
 </resources>
