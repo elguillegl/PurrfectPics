@@ -1,5 +1,5 @@
 ## Purrfect Pics
-This a sample application that integrates good practices for Android apps that make use of remote data.
+This a sample application that integrates good practices for modern Android apps that make use of remote data.
 
 ## Tech Stack
 Kotlin
@@ -24,6 +24,8 @@ Coil for image loading
   - Resource state handling
   - Error handling
     - More fine grained handling possible by using error enums.
+      
+<img src="https://github.com/elguillegl/PurrfectPics/assets/2840910/adc78325-ca4f-4299-ab8e-7a5e2041133e" height="500"/>
 
 ## Build 
 To build this application, you need
